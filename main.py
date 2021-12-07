@@ -1,5 +1,6 @@
 import argparse
 from pathlib import Path
+from datetime import datetime
 
 import gym
 
@@ -37,6 +38,8 @@ logs_path = Path(Path(__file__).parent, LOG_DIR, env.spec.id)
 model = PPO2(MlpPolicy, env, verbose=1, tensorboard_log=logs_path)
 
 model.learn(total_timesteps=TOTAL_TIMESTEPS)
+
+model.save(logs_path/f'{datetime.now().strftime("%Y%m%d_%H%M%S")}.model')
 
 obs = env.reset()
 for i in range(2000):
